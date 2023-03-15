@@ -8,4 +8,8 @@ self.addEventListener("activate", (event) => {
 
 self.addEventListener("fetch", (event) => {
     console.log("fetch sw");
+    event.respondWith(new Response("Network  happened", {
+        status: 200,
+        headers: { "Content-Type": "text/plain" },
+      }));
 })

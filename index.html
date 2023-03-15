@@ -12,6 +12,43 @@
 
     </style>
 
+    <script type="importmap">
+        {
+            "imports": {
+                "wapp": "./wapp.mjs"
+            }
+        }
+    </script>
+    <script type="module">
+        import {
+            application,
+            navigationBar,
+            navigationItem
+        } from "wapp";
+        
+        application({
+            content: [
+                
+            ],
+            navigationBar: navigationBar({
+                content: [
+                    navigationItem({
+                        label: "home"
+                    }),
+                    navigationItem({
+                        label: "help"
+                    })
+                ]
+            }),
+            test() {
+                alert(8)
+            }
+        })
+            .then((elem)=>{
+                //elem.test()
+                console.log(elem)
+            });
+    </script>
     <script>
         const registerServiceWorker = async () => {
             if ("serviceWorker" in navigator) {
@@ -29,13 +66,10 @@
                 } catch (error) {
                     console.error(`Registration failed with ${error}`);
                 }
-            }
+            } else console.error('no serviceworker');
         }
         registerServiceWorker();
 
-        onload = function (e) {
-            document.body.innerHTML = '<h1>HALLO</h1>'
-        }
     </script>
 </head>
 

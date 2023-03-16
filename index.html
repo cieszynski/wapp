@@ -25,10 +25,10 @@
             navigationBar,
             navigationItem
         } from "wapp";
-        
+
         application({
             content: [
-                
+
             ],
             navigationBar: navigationBar({
                 content: [
@@ -37,6 +37,9 @@
                     }),
                     navigationItem({
                         label: "help"
+                    }),
+                    navigationItem({
+                        label: "info"
                     })
                 ]
             }),
@@ -44,10 +47,12 @@
                 alert(8)
             }
         })
-            .then((elem)=>{
+            .then((elem) => {
                 //elem.test()
                 console.log(elem)
-            });
+            })
+            .catch(error => console.error);
+
     </script>
     <script>
         const registerServiceWorker = async () => {

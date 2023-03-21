@@ -8,37 +8,38 @@
     <meta name="theme-color" content="#333">
     <link rel="manifest" href="manifest.json">
     <link rel="apple-touch-icon" href="/icon-192.png">
-    <style>
 
-    </style>
-
-    <script type="importmap">
-        {
-            "imports": {
-                "wapp": "./wapp.mjs"
-            }
-        }
-    </script>
     <script type="module">
         import {
             application,
             navigationBar,
             navigationItem
-        } from "wapp";
+        } from "./wapp.mjs";
 
         application({
             content: [
 
             ],
             navigationBar: navigationBar({
+                oninput(e) {
+                    console.log('nav')
+                },
                 content: [
                     navigationItem({
-                        label: "home"
+                        checked: true,
+                        icon: '\ue88a',
+                        label: "home",
+                        oninput(e) {
+                            e.stopPropagation()
+                            console.log(e.target)
+                        }
                     }),
                     navigationItem({
+                        icon: '\ue88e',
                         label: "help"
                     }),
                     navigationItem({
+                        icon: '\ue88d',
                         label: "info"
                     })
                 ]
@@ -46,15 +47,16 @@
             test() {
                 alert(8)
             }
+        }, {
+            colors: {
+                light: {
+                    secondaryContainer: "200, 100, 0"
+                }
+            }
         })
-            .then((elem) => {
-                //elem.test()
-                console.log(elem)
-            })
-            .catch(error => console.error);
 
     </script>
-    <script>
+    <script type="bla">
         const registerServiceWorker = async () => {
             if ("serviceWorker" in navigator) {
                 try {

@@ -1,20 +1,70 @@
 /* wapp.mjs */
 
 let globalTheme = {
-    fonts: {
-        regular: "Roboto-Regular.ttf",
-        medium: "Roboto-Medium.ttf",
-        icons: "MaterialIcons-Regular.ttf",
-        iconsOutlined: "MaterialIconsOutlined-Regular.otf",
-    },
-    colors: {
-        light: {
-            surface: '200, 100, 200'
-        },
-        dark: {
+    fontRegular: "Roboto-Regular.ttf",
+    fontMedium: "Roboto-Medium.ttf",
+    fontIcons: "MaterialIcons-Regular.ttf",
+    fontIconsOutlined: "MaterialIconsOutlined-Regular.otf",
 
-        }
-    }
+    colorLightPrimary: '103, 80, 164',
+    colorLightPrimaryContainer: '234, 221, 255',
+    colorLightSecondary: '98, 91, 113',
+    colorLightSecondaryContainer: '232, 222, 248',
+    colorLightTertiary: '125, 82, 96',
+    colorLightTertiaryContainer: '255, 216, 228',
+    colorLightSurface: '255, 251, 254',
+    colorLightBackground: '255, 251, 254',
+    colorLightError: '179, 38, 30',
+    colorLightErrorContainer: '249, 222, 220',
+    colorLightOnPrimary: '255, 255, 255',
+    colorLightOnPrimaryContainer: '33, 0, 94',
+    colorLightOnSecondary: '255, 255, 255',
+    colorLightOnSecondaryContainer: '30, 25, 43',
+    colorLightOnTertiary: '255, 255, 255',
+    colorLightOnTertiaryContainer: '55, 11, 30',
+    colorLightOnSurface: '28, 27, 31',
+    colorLightOnSurfaceVariant: '73, 69, 78',
+    colorLightOnError: '255, 255, 255',
+    colorLightOnErrorContainer: '65, 14, 11',
+    colorLightOnBackground: '28, 27, 31',
+    colorLightOutline: '121, 116, 126',
+    colorLightOutlineVariant: '196, 199, 197',
+    colorLightShadow: '0, 0, 0',
+    colorLightSurfaceTint: '103, 80, 164',
+    colorLightInverseSurface: '49, 48, 51',
+    colorLightInverseOnSurface: '244, 239, 244',
+    colorLightInversePrimary: '208, 188, 255',
+    colorLightScrim: '0, 0, 0',
+
+    colorDarkPrimary: '208, 188, 255',
+    colorDarkPrimaryContainer: '79, 55, 139',
+    colorDarkSecondary: '204, 194, 220',
+    colorDarkSecondaryContainer: '74, 68, 88',
+    colorDarkTertiary: '239, 184, 200',
+    colorDarkTertiaryContainer: '99, 59, 72',
+    colorDarkSurface: '28, 27, 31',
+    colorDarkBackground: '28, 27, 31',
+    colorDarkError: '242, 184, 181',
+    colorDarkErrorContainer: '140, 29, 24',
+    colorDarkOnPrimary: '55, 30, 115',
+    colorDarkOnPrimaryContainer: '234, 221, 255',
+    colorDarkOnSecondary: '51, 45, 65',
+    colorDarkOnSecondaryContainer: '232, 222, 248',
+    colorDarkOnTertiary: '73, 37, 50',
+    colorDarkOnTertiaryContainer: '255, 216, 228',
+    colorDarkOnSurface: '230, 225, 229',
+    colorDarkOnSurfaceVariant: '202, 196, 208',
+    colorDarkOnError: '96, 20, 16',
+    colorDarkOnErrorContainer: '249, 222, 220',
+    colorDarkOnBackground: '230, 225, 229',
+    colorDarkOutline: '147, 143, 153',
+    colorDarkOutlineVariant: '68, 71, 70',
+    colorDarkShadow: '0, 0, 0',
+    colorDarkSurfaceTint: '208, 188, 255',
+    colorDarkInverseSurface: '230, 225, 229',
+    colorDarkInverseOnSurface: '49, 48, 51',
+    colorDarkInversePrimary: '103, 80, 164',
+    colorDarkScrim: '0, 0, 0'
 }
 
 /* if (navigationItem.seen)
@@ -115,12 +165,91 @@ export const navigationItem = (properties) => {
     }
     
     label.navigation input::after {
-        position: relative;
         width: 100%;
         margin: auto;
-        text-align: center;
         position: absolute;
         top: 0;
+    }
+
+    @media screen and (max-width: 599px) {
+        label.navigation {
+            width: 100%;
+            height: 100%;
+        }
+    
+        label.navigation input::before {
+            content: "";
+            position: relative;
+            border-radius: 16rem;
+            display: block;
+            height: 32rem;
+            width: 64rem;
+            margin: auto;
+        }
+    
+        label.navigation input::after {
+            position: relative;
+            width: 100%;
+            margin: auto;
+            text-align: center;
+            position: absolute;
+            top: 0;
+        }
+    }
+
+    @media screen and (min-width: 600px) and (max-width: 839px) {
+        label.navigation {
+            width: 80rem;
+            height: 56rem;
+        }
+    
+        label.navigation input::before {
+            content: "";
+            position: relative;
+            border-radius: 16rem;
+            display: block;
+            height: 32rem;
+            width: 56rem;
+            margin: auto;
+        }
+    
+        label.navigation input::after {
+            position: relative;
+            width: 100%;
+            margin: auto;
+            text-align: center;
+            position: absolute;
+            top: 0;
+        }
+    }
+
+    @media screen and (min-width: 840px) {
+
+        label.navigation {
+            width: 360rem;
+            height: 56rem;
+            text-align: left;
+            padding: 22rem 0 0 58rem;
+            font-size: 14rem;
+        }
+    
+        label.navigation input::before {
+            content: "";
+            position: relative;
+            border-radius: 28rem;
+            display: block;
+            height: 56rem;
+            width: 336rem;
+            margin: 0 12rem;
+        }
+    
+        label.navigation input::after {
+            font-size: 24rem;
+            line-height: 2.3;
+            position: absolute;
+            top: 0;
+            left: 28rem;
+        }
     }
 
     /* ENABLED */
@@ -183,7 +312,7 @@ export const navigationBar = (properties) => {
         oninput: { value: (e) => { }, writable: true },
         onchange: { value: (e) => { }, writable: true },
         node: {
-            value: (function () { 
+            value: (function () {
                 const nav = document.createElement('nav');
                 nav.addEventListener('input', (e) => { elem.oninput(e) });
                 nav.addEventListener('change', (e) => { elem.onchange(e) });
@@ -207,7 +336,7 @@ export const navigationBar = (properties) => {
             }
         },
     });
-    
+
     Object.assign(elem, properties);
     Object.freeze(elem);
 
@@ -222,12 +351,35 @@ export const navigationBar = (properties) => {
             height: 80px;
         }
 
-        nav {   /* BOTTOM NAVIGATION */
+        @media screen and (max-width: 599px) {
+            nav {   /* BOTTOM NAVIGATION */
             justify-content: center;
             column-gap: 8rem;
             width: 100%;
             height: 80rem;
             padding: 12rem 0 16rem 0;
+        }
+        }
+
+        @media screen and (min-width: 600px) and (max-width: 839px) {
+            nav {
+                /* RAIL */
+                justify-content: center;
+                flex-direction: column;
+                row-gap: 12px;
+                width: 80px;
+                height: 100%;
+            }
+        }
+
+        @media screen and (min-width: 840px) {
+            nav {
+                /* DRAWER */
+                flex-direction: column;
+                row-gap: 12px;
+                width: 360rem;
+                height: 100%;
+            }
         }
     `).then((sheet) => { document.adoptedStyleSheets[document.adoptedStyleSheets.length] = sheet });
 
@@ -242,147 +394,89 @@ export const application = (properties, currentTheme = {}) => {
     (new CSSStyleSheet()).replace(`
         @font-face {
             font-family: "Font-Regular";
-            src: url("${globalTheme.fonts.regular}");
+            src: url("${globalTheme.fontRegular}");
         }
 
         @font-face {
             font-family: "Font-Medium";
-            src: url("${globalTheme.fonts.medium}");
+            src: url("${globalTheme.fontMedium}");
         }
 
         @font-face {
             font-family: "Font-Icons";
-            src: url("${globalTheme.fonts.icons}");
+            src: url("${globalTheme.fontIcons}");
         }
 
         @font-face {
             font-family: "Font-Icons-Outlined";
-            src: url("${globalTheme.fonts.iconsOutlined}");
+            src: url("${globalTheme.fontIconsOutlined}");
         }
 
         @media (prefers-color-scheme: light) {
             :root {
-                --color-primary: 103, 80, 164;
-                /* #6750A4; */
-                --color-primary-container: 234, 221, 255;
-                /* #EADDFF */
-                --color-secondary: 98, 91, 113;
-                /* #625B71 */
-                --color-secondary-container: ${globalTheme.colors.light.secondaryContainer}/* 232, 222, 248 */;
-                /* #E8DEF8 */
-                --color-tertiary: 125, 82, 96;
-                /* #7D5260 */
-                --color-tertiary-container: 255, 216, 228;
-                /* #FFD8E4 */
-                --color-surface: 255, 251, 254;
-                /* #FFFBFE */
-                --colr-background: 255, 251, 254;
-                /* #FFFBFE */
-                --color-error: 179, 38, 30;
-                /* #B3261E */
-                --color-error-container: 249, 222, 220;
-                /* #F9DEDC */
-                --color-on-primary: 255, 255, 255;
-                /* #FFFFFF */
-                --color-on-primary-container: 33, 0, 94;
-                /* #21005E */
-                --color-on-secondary: 255, 255, 255;
-                /* #FFFFFF */
-                --color-on-secondary-container: 30, 25, 43;
-                /* #1E192B */
-                --color-on-tertiary: 255, 255, 255;
-                /* #FFFFFF */
-                --color-on-tertiary-container: 55, 11, 30;
-                /* #370B1E */
-                --color-on-surface: 28, 27, 31;
-                /* #1C1B1F */
-                --color-on-surface-variant: 73, 69, 78;
-                /* #49454E */
-                --color-on-error: 255, 255, 255;
-                /* #FFFFFF */
-                --color-on-error-container: 65, 14, 11;
-                /* #410E0B */
-                --color-on-background: 28, 27, 31;
-                /* #1C1B1F */
-                --color-outline: 121, 116, 126;
-                /* #79747E */
-                --color-outline-variant: 196, 199, 197;
-                /* #C4C7C5 */
-                --color-shadow: 0, 0, 0;
-                /* #000000 */
-                --color-surface-tint-color: 103, 80, 164;
-                /* #6750A4 */
-                --color-inverse-surface: 49, 48, 51;
-                /* #313033 */
-                --color-inverse-on-surface: 244, 239, 244;
-                /* #F4EFF4 */
-                --color-inverse-primary: 208, 188, 255;
-                /* #D0BCFF */
-                --color-scrim: 0, 0, 0;
-                /* #000000 */
+                --color-primary: ${globalTheme.colorLightPrimary};
+                --color-primary-container: ${globalTheme.colorLightPrimaryContainer};
+                --color-secondary: ${globalTheme.colorLightSecondary};
+                --color-secondary-container: ${globalTheme.colorLightSecondaryContainer};
+                --color-tertiary: ${globalTheme.colorLightTertiary};
+                --color-tertiary-container: ${globalTheme.colorLightTertiaryContainer};
+                --color-surface: ${globalTheme.colorLightSurface};
+                --colr-background: ${globalTheme.colorLightBackground};
+                --color-error: ${globalTheme.colorLightError};
+                --color-error-container: ${globalTheme.colorLightErrorContainer};
+                --color-on-primary: ${globalTheme.colorLightOnPrimary};
+                --color-on-primary-container: ${globalTheme.colorLightOnPrimaryContainer};
+                --color-on-secondary: ${globalTheme.colorLightOnSecondary};
+                --color-on-secondary-container: ${globalTheme.colorLightOnSecondaryContainer};
+                --color-on-tertiary: ${globalTheme.colorLightOnTertiary};
+                --color-on-tertiary-container: ${globalTheme.colorLightOnTertiaryContainer};
+                --color-on-surface: ${globalTheme.colorLightOnSurface};
+                --color-on-surface-variant: ${globalTheme.colorLightOnSurfaceVariant};
+                --color-on-error: ${globalTheme.colorLightOnError};
+                --color-on-error-container: ${globalTheme.colorLightOnErrorContainer};
+                --color-on-background: ${globalTheme.colorLightOnBackground};
+                --color-outline: ${globalTheme.colorLightOutline};
+                --color-outline-variant: ${globalTheme.colorLightOutlineVariant};
+                --color-shadow: ${globalTheme.colorLightShadow};
+                --color-surface-tint: ${globalTheme.colorLightSurfaceTint};
+                --color-inverse-surface: ${globalTheme.colorLightInverseSurface};
+                --color-inverse-on-surface: ${globalTheme.colorLightInverseOnSurface};
+                --color-inverse-primary: ${globalTheme.colorLightInversePrimary};
+                --color-scrim: ${globalTheme.colorLightScrim};
             }
         }
 
         @media (prefers-color-scheme: dark) {
             :root {
-                --color-primary: 208, 188, 255;
-                /* #D0BCFF */
-                --color-primary-container: 79, 55, 139;
-                /* #4F378B */
-                --color-secondary: 204, 194, 220;
-                /* #CCC2DC */
-                --color-secondary-container: 74, 68, 88;
-                /* #4A4458 */
-                --color-tertiary: 239, 184, 200;
-                /* #EFB8C8 */
-                --color-tertiary-container: 99, 59, 72;
-                /* #633B48 */
-                --color-surface: 28, 27, 31;
-                /* #1C1B1F */
-                --colr-background: 28, 27, 31;
-                /* #1C1B1F */
-                --color-error: 242, 184, 181;
-                /* #F2B8B5 */
-                --color-error-container: 140, 29, 24;
-                /* #8C1D18 */
-                --color-on-primary: 55, 30, 115;
-                /* #371E73 */
-                --color-on-primary-container: 234, 221, 255;
-                /* #EADDFF */
-                --color-on-secondary: 51, 45, 65;
-                /* #332D41 */
-                --color-on-secondary-container: 232, 222, 248;
-                /* #E8DEF8 */
-                --color-on-tertiary: 73, 37, 50;
-                /* #492532 */
-                --color-on-tertiary-container: 255, 216, 228;
-                /* #FFD8E4 */
-                --color-on-surface: 230, 225, 229;
-                /* #E6E1E5 */
-                --color-on-surface-variant: 202, 196, 208;
-                /* #CAC4D0 */
-                --color-on-error: 96, 20, 16;
-                /* #601410 */
-                --color-on-error-container: 249, 222, 220;
-                /* #F9DEDC */
-                --color-on-background: 230, 225, 229;
-                /* #E6E1E5 */
-                --color-outline: 147, 143, 153;
-                /* #938F99 */
-                --color-outline-variant: 68, 71, 70;
-                /* #444746 */
-                --color-shadow: 0, 0, 0;
-                /* #000000 */
-                --color-surface-tint-color: 208, 188, 255;
-                /* #D0BCFF */
-                --color-inverse-surface: 230, 225, 229;
-                /* #E6E1E5 */
-                --color-inverse-on-surface: 49, 48, 51;
-                /* #313033 */
-                --color-inverse-primary: 103, 80, 164;
-                /* #6750A4 */
-                --color-scrim: 0, 0, 0;
-                /* #000000 */
+                --color-primary: ${globalTheme.colorDarkPrimary};
+                --color-primary-container: ${globalTheme.colorDarkPrimaryContainer};
+                --color-secondary: ${globalTheme.colorDarkSecondary};
+                --color-secondary-container: ${globalTheme.colorDarkSecondaryContainer};
+                --color-tertiary: ${globalTheme.colorDarkTertiary};
+                --color-tertiary-container: ${globalTheme.colorDarkTertiaryContainer};
+                --color-surface: ${globalTheme.colorDarkSurface};
+                --colr-background: ${globalTheme.colorDarkBackground};
+                --color-error: ${globalTheme.colorDarkError};
+                --color-error-container: ${globalTheme.colorDarkErrorContainer};
+                --color-on-primary: ${globalTheme.colorDarkOnPrimary};
+                --color-on-primary-container: ${globalTheme.colorDarkOnPrimaryContainer};
+                --color-on-secondary: ${globalTheme.colorDarkOnSecondary};
+                --color-on-secondary-container: ${globalTheme.colorDarkOnSecondaryContainer};
+                --color-on-tertiary: ${globalTheme.colorDarkOnTertiary};
+                --color-on-tertiary-container: ${globalTheme.colorDarkOnTertiaryContainer};
+                --color-on-surface: ${globalTheme.colorDarkOnSurface};
+                --color-on-surface-variant: ${globalTheme.colorDarkOnSurfaceVariant};
+                --color-on-error: ${globalTheme.colorDarkOnError};
+                --color-on-error-container: ${globalTheme.colorDarkOnErrorContainer};
+                --color-on-background: ${globalTheme.colorDarkOnBackground};
+                --color-outline: ${globalTheme.colorDarkOutline};
+                --color-outline-variant: ${globalTheme.colorDarkOutlineVariant};
+                --color-shadow: ${globalTheme.colorDarkShadow};
+                --color-surface-tint: ${globalTheme.colorDarkSurfaceTint};
+                --color-inverse-surface: ${globalTheme.colorDarkInverseSurface};
+                --color-inverse-on-surface: ${globalTheme.colorDarkInverseOnSurface};
+                --color-inverse-primary: ${globalTheme.colorDarkInversePrimary};
+                --color-scrim: ${globalTheme.colorDarkScrim};
             }
         }
         *,
@@ -392,25 +486,42 @@ export const application = (properties, currentTheme = {}) => {
             box-sizing: border-box;
             user-select: none;
         }
+
+        *:focus { outline: none; }
         
+        body {
+            background-color: rgba(var(--color-surface), 1);
+            display: flex;
+            height: 100%;
+        }
+
         html {
             height: 100%;
             font-size: 6.25%;
             font-family: Font-Regular;
         }
 
+        main {
+            flex: 1;
+            outline: 1px solid blue;
+        }
+
         @media screen and (max-width: 599px) {
-            html {
-                background-color: var(--color-surface);
+            body {
+                flex-direction: column;
             }
         }
 
         @media screen and (min-width: 600px) and (max-width: 839px) {
-
+            body {
+                flex-direction: row-reverse;
+            }
         }
 
         @media screen and (min-width: 840px) {
-
+            body {
+                flex-direction: row-reverse;
+            }
         }
     `).then((sheet) => { document.adoptedStyleSheets[document.adoptedStyleSheets.length] = sheet });
 

@@ -13,12 +13,24 @@
         import {
             application,
             navigationBar,
-            navigationItem
+            navigationItem,
+            iconButton
         } from "./wapp.mjs";
 
         application({
             content: [
-
+                iconButton({
+                    type: 'filled',
+                    title: 'test'
+                }),
+                iconButton({
+                    type: 'outlined',
+                    title: 'test'
+                }),
+                iconButton({
+                    checked: true,
+                    title: 'test'
+                })
             ],
             navigationBar: navigationBar({
                 oninput(e) {
@@ -51,7 +63,6 @@
             colorLightSecondaryContainer: ' 0,255, 0',
             colorDarkSecondaryContainer: ' 0, 0,255'
         })
-        thema.color.background = '#000'
     </script>
     <script type="bla">
         const registerServiceWorker = async () => {

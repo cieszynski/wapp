@@ -75,6 +75,194 @@ navigationItem.seen = true;
 `).then((sheet) => { document.adoptedStyleSheets[document.adoptedStyleSheets.length] = sheet });
  */
 
+/* TODO toggle button */
+export const iconButton = (properties) => {
+    const elem = Object.create(null, {
+        onclick: { value: (e) => { console.log(e)}, writable: true },
+        node: {
+            value: (function () {
+                const button = document.createElement('button');
+                button.addEventListener('click', (e) => {
+                    if(elem.node.ariaPressed) {
+                        elem.node.ariaPressed = {
+                            true: 'false', false: 'true'
+                        }[elem.node.ariaPressed]
+                    }
+                    console.log(elem.node.ariaPressed)
+                    elem.onclick(e);
+                })
+                button.dataset.icon = '\ue88a';
+                button.className = 'icon';
+                return button;
+            })()
+        },
+        checked: {
+            set(bool) {
+                this.node.ariaPressed = String(bool)
+            }
+        },
+        type: {
+            set(name) {
+                this.node.className = `icon ${name}`;
+            }
+        },
+        title: {
+            set(str) { this.node.title = str; },
+            get() { return this.node.title; }
+        },
+    });
+
+    Object.assign(elem, properties);
+    Object.freeze(elem);
+
+    if (iconButton.seen)
+        return elem;
+    iconButton.seen = true;
+
+    (new CSSStyleSheet()).replace(`
+    button[aria-pressed=true] {
+        border: 2px solid blue;
+    }
+    button.icon {
+        width: 40rem;
+        height: 40rem;
+        border-radius: 20rem;
+        margin: 4rem;
+        font-size: 0;
+    }
+    
+    button.icon::after {
+        color: rgba(var(--color-on-surface-variant), 1);
+        line-height: 1.6;
+        font-family: Font-Icons;
+        font-weight: 500;
+        font-size: 24rem;
+        content: attr(data-icon);
+    }
+    
+    button.icon:disabled::after {
+        color: rgba(var(--color-on-surface), .38);
+    }
+    
+    button.icon:not(:disabled, :active):hover {
+        background-image: linear-gradient(rgba(var(--color-on-surface-variant), .08) 0 100%);
+    }
+    
+    button.icon:not(:disabled):active,
+    button.icon:focus {
+        background-image: linear-gradient(rgba(var(--color-on-surface-variant), .12) 0 100%);
+    }
+    
+    button.icon.filled {
+        background-color: rgba(var(--color-primary), 1);
+    }
+    
+    button.icon.filled::after {
+        color: rgba(var(--color-on-primary), 1);
+    }
+    
+    button.icon.filled:disabled {
+        background-color: rgba(var(--color-on-surface), .12);
+    }
+    
+    button.icon.filled:disabled::after {
+        color: rgba(var(--color-on-surface), .38);
+    }
+    
+    button.icon.filled:not(:disabled, :active):hover {
+        background-image: linear-gradient(rgba(var(--color-on-primary), .08) 0 100%);
+    }
+    
+    button.icon.filled:not(:disabled, :active):hover::after  {
+        color: rgba(var(--color-on-primary), 1);
+    }
+    
+    button.icon.filled:not(:disabled, :active):active, 
+    button.icon.filled:not(:disabled, :active):focus {
+        background-image: linear-gradient(rgba(var(--color-on-primary), .12) 0 100%);
+    }
+    
+    button.icon.filled:not(:disabled, :active):active::after, 
+    button.icon.filled:not(:disabled, :active):focus::after  {
+        color: rgba(var(--color-on-primary), 1);
+    }
+    /*  */
+    
+    
+    button.icon.filled-tonal {
+        background-color: rgba(var(--color-secondary-container), 1);
+    }
+    
+    button.icon.filled-tonal::after {
+        color: rgba(var(--color-on-secondary-container), 1);
+    }
+    
+    button.icon.filled-tonal:disabled {
+        background-color: rgba(var(--color-on-surface), .12);
+    }
+    
+    button.icon.filled-tonal:disabled::after {
+        color: rgba(var(--color-on-surface), .38);
+    }
+    
+    button.icon.filled-tonal:not(:disabled, :active):hover {
+        background-image: linear-gradient(rgba(var(--color-on-secondary-container), .08) 0 100%);
+    }
+    
+    button.icon.filled-tonal:not(:disabled, :active):hover::after  {
+        color: rgba(var(--color-on-secondary-container), 1);
+    }
+    
+    button.icon.filled-tonal:not(:disabled, :active):active, 
+    button.icon.filled-tonal:not(:disabled, :active):focus {
+        background-image: linear-gradient(rgba(var(--color-on-secondary-container), .12) 0 100%);
+    }
+    
+    button.icon.filled-tonal:not(:disabled, :active):active::after, 
+    button.icon.filled-tonal:not(:disabled, :active):focus::after  {
+        color: rgba(var(--color-on-secondary-container), 1);
+    }
+    /*  */
+    
+    
+    button.icon.outlined {
+        border: 1rem solid rgba(var(--color-outline), 1);
+    }
+    
+    button.icon.outlined::after {
+        color: rgba(var(--color-on-surface-variant), 1);
+    }
+    
+    button.icon.outlined:disabled {
+        background-color: rgba(var(--color-on-surface), .12);
+    }
+    
+    button.icon.outlined:disabled::after {
+        color: rgba(var(--color-on-surface), .38);
+    }
+    
+    button.icon.outlined:not(:disabled, :active):hover {
+        background-image: linear-gradient(rgba(var(--color-on-surface-variant), .08) 0 100%);
+    }
+    
+    button.icon.outlined:not(:disabled, :active):hover::after  {
+        color: rgba(var(--color-on-surface-variant), 1);
+    }
+    
+    button.icon.outlined:not(:disabled, :active):active, 
+    button.icon.outlined:not(:disabled, :active):focus {
+        background-image: linear-gradient(rgba(var(--color-on-surface-variant), .12) 0 100%);
+    }
+    
+    button.icon.outlined:not(:disabled, :active):active::after, 
+    button.icon.outlined:not(:disabled, :active):focus::after  {
+        color: rgba(var(--color-on-surface-variant), 1);
+    }
+    `).then((sheet) => { document.adoptedStyleSheets[document.adoptedStyleSheets.length] = sheet });
+
+    return elem;
+}
+
 export const navigationItem = (properties) => {
     const elem = Object.create(null, {
         oninput: { value: (e) => { }, writable: true },
@@ -165,7 +353,7 @@ export const navigationItem = (properties) => {
     }
     
     label.navigation input::after {
-        width: 100%;
+        /* width: 100%; */
         margin: auto;
         position: absolute;
         top: 0;
@@ -227,10 +415,12 @@ export const navigationItem = (properties) => {
 
         label.navigation {
             width: 360rem;
+            width: 336rem;
             height: 56rem;
             text-align: left;
             padding: 22rem 0 0 58rem;
             font-size: 14rem;
+            margin: 0 12rem;
         }
     
         label.navigation input::before {
@@ -238,9 +428,8 @@ export const navigationItem = (properties) => {
             position: relative;
             border-radius: 28rem;
             display: block;
-            height: 56rem;
-            width: 336rem;
-            margin: 0 12rem;
+            width: 100%;
+            height: 100%;
         }
     
         label.navigation input::after {
@@ -248,7 +437,7 @@ export const navigationItem = (properties) => {
             line-height: 2.3;
             position: absolute;
             top: 0;
-            left: 28rem;
+            left: 16rem;
         }
     }
 
@@ -376,7 +565,6 @@ export const navigationBar = (properties) => {
             nav {
                 /* DRAWER */
                 flex-direction: column;
-                row-gap: 12px;
                 width: 360rem;
                 height: 100%;
             }
@@ -494,6 +682,11 @@ export const application = (properties, currentTheme = {}) => {
             display: flex;
             height: 100%;
         }
+        
+        button {
+            border: none;
+            background: none;
+        }
 
         html {
             height: 100%;
@@ -535,12 +728,16 @@ export const application = (properties, currentTheme = {}) => {
                     value: document.body.appendChild(document.createElement('main'))
                 },
                 content: {
-                    value: [],
-                    writable: true
+                    set(arr) {
+                        this.node.replaceChildren();
+                        arr.forEach(item => {
+                            this.node.appendChild(item.node);
+                        })
+                    }
                 },
                 navigationBar: {
                     set(other) {
-                        const old = document.querySelector('nav');
+                        const old = document.querySelector('nav');/* TODO */
                         if (!old) {
                             document.body.appendChild(other.node);
                         } else {

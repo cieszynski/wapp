@@ -1,72 +1,5 @@
 /* wapp.mjs */
 
-let globalTheme = {
-    fontRegular: "Roboto-Regular.ttf",
-    fontMedium: "Roboto-Medium.ttf",
-    fontIcons: "MaterialIcons-Regular.ttf",
-    fontIconsOutlined: "MaterialIconsOutlined-Regular.otf",
-
-    colorLightPrimary: '103, 80, 164',
-    colorLightPrimaryContainer: '234, 221, 255',
-    colorLightSecondary: '98, 91, 113',
-    colorLightSecondaryContainer: '232, 222, 248',
-    colorLightTertiary: '125, 82, 96',
-    colorLightTertiaryContainer: '255, 216, 228',
-    colorLightSurface: '255, 251, 254',
-    colorLightBackground: '255, 251, 254',
-    colorLightError: '179, 38, 30',
-    colorLightErrorContainer: '249, 222, 220',
-    colorLightOnPrimary: '255, 255, 255',
-    colorLightOnPrimaryContainer: '33, 0, 94',
-    colorLightOnSecondary: '255, 255, 255',
-    colorLightOnSecondaryContainer: '30, 25, 43',
-    colorLightOnTertiary: '255, 255, 255',
-    colorLightOnTertiaryContainer: '55, 11, 30',
-    colorLightOnSurface: '28, 27, 31',
-    colorLightOnSurfaceVariant: '73, 69, 78',
-    colorLightOnError: '255, 255, 255',
-    colorLightOnErrorContainer: '65, 14, 11',
-    colorLightOnBackground: '28, 27, 31',
-    colorLightOutline: '121, 116, 126',
-    colorLightOutlineVariant: '196, 199, 197',
-    colorLightShadow: '0, 0, 0',
-    colorLightSurfaceTint: '103, 80, 164',
-    colorLightInverseSurface: '49, 48, 51',
-    colorLightInverseOnSurface: '244, 239, 244',
-    colorLightInversePrimary: '208, 188, 255',
-    colorLightScrim: '0, 0, 0',
-
-    colorDarkPrimary: '208, 188, 255',
-    colorDarkPrimaryContainer: '79, 55, 139',
-    colorDarkSecondary: '204, 194, 220',
-    colorDarkSecondaryContainer: '74, 68, 88',
-    colorDarkTertiary: '239, 184, 200',
-    colorDarkTertiaryContainer: '99, 59, 72',
-    colorDarkSurface: '28, 27, 31',
-    colorDarkBackground: '28, 27, 31',
-    colorDarkError: '242, 184, 181',
-    colorDarkErrorContainer: '140, 29, 24',
-    colorDarkOnPrimary: '55, 30, 115',
-    colorDarkOnPrimaryContainer: '234, 221, 255',
-    colorDarkOnSecondary: '51, 45, 65',
-    colorDarkOnSecondaryContainer: '232, 222, 248',
-    colorDarkOnTertiary: '73, 37, 50',
-    colorDarkOnTertiaryContainer: '255, 216, 228',
-    colorDarkOnSurface: '230, 225, 229',
-    colorDarkOnSurfaceVariant: '202, 196, 208',
-    colorDarkOnError: '96, 20, 16',
-    colorDarkOnErrorContainer: '249, 222, 220',
-    colorDarkOnBackground: '230, 225, 229',
-    colorDarkOutline: '147, 143, 153',
-    colorDarkOutlineVariant: '68, 71, 70',
-    colorDarkShadow: '0, 0, 0',
-    colorDarkSurfaceTint: '208, 188, 255',
-    colorDarkInverseSurface: '230, 225, 229',
-    colorDarkInverseOnSurface: '49, 48, 51',
-    colorDarkInversePrimary: '103, 80, 164',
-    colorDarkScrim: '0, 0, 0'
-}
-
 /* if (navigationItem.seen)
 return elem;
 navigationItem.seen = true;
@@ -75,20 +8,42 @@ navigationItem.seen = true;
 `).then((sheet) => { document.adoptedStyleSheets[document.adoptedStyleSheets.length] = sheet });
  */
 
-/* TODO toggle button */
+export const Row = (properties) => {
+    const elem = Object.create(null, {
+        node: {
+            value: (function () {
+                const div = document.createElement('div');
+                return div;
+            })()
+        },
+        content: {
+            set(arr) {
+                this.node.replaceChildren();
+                arr.forEach(item => {
+                    this.node.appendChild(item.node);
+                })
+            }
+        },
+    });
+
+    Object.assign(elem, properties);
+    Object.freeze(elem);
+
+    return elem;
+}
+
 export const iconButton = (properties) => {
     const elem = Object.create(null, {
-        onclick: { value: (e) => { console.log(e)}, writable: true },
+        onclick: { value: (e) => { console.log(e) }, writable: true },
         node: {
             value: (function () {
                 const button = document.createElement('button');
                 button.addEventListener('click', (e) => {
-                    if(elem.node.ariaPressed) {
+                    if (elem.node.ariaPressed) {
                         elem.node.ariaPressed = {
                             true: 'false', false: 'true'
                         }[elem.node.ariaPressed]
                     }
-                    console.log(elem.node.ariaPressed)
                     elem.onclick(e);
                 })
                 button.dataset.icon = '\ue88a';
@@ -96,20 +51,11 @@ export const iconButton = (properties) => {
                 return button;
             })()
         },
-        checked: {
-            set(bool) {
-                this.node.ariaPressed = String(bool)
-            }
-        },
-        type: {
-            set(name) {
-                this.node.className = `icon ${name}`;
-            }
-        },
-        title: {
-            set(str) { this.node.title = str; },
-            get() { return this.node.title; }
-        },
+        disabled: { set(bool) { this.node.disabled = bool; } },
+        checked: { set(bool) { this.node.ariaPressed = String(bool); } },
+        type: { set(str) { this.node.className = `icon ${str}`; } },
+        title: { set(str) { this.node.title = str; } },
+        id: { set(str) { this.node.id = str; } },
     });
 
     Object.assign(elem, properties);
@@ -120,9 +66,6 @@ export const iconButton = (properties) => {
     iconButton.seen = true;
 
     (new CSSStyleSheet()).replace(`
-    button[aria-pressed=true] {
-        border: 2px solid blue;
-    }
     button.icon {
         width: 40rem;
         height: 40rem;
@@ -133,11 +76,16 @@ export const iconButton = (properties) => {
     
     button.icon::after {
         color: rgba(var(--color-on-surface-variant), 1);
+        font-family: Font-Icons-Outlined;
+        content: attr(data-icon);
         line-height: 1.6;
-        font-family: Font-Icons;
         font-weight: 500;
         font-size: 24rem;
-        content: attr(data-icon);
+    }
+
+    button.icon[aria-pressed=true]::after {
+        color: rgba(var(--color-primary), 1);
+        font-family: Font-Icons;
     }
     
     button.icon:disabled::after {
@@ -153,13 +101,36 @@ export const iconButton = (properties) => {
         background-image: linear-gradient(rgba(var(--color-on-surface-variant), .12) 0 100%);
     }
     
+    /* FILLED */
+    /* Container (no toggle - default) */
     button.icon.filled {
         background-color: rgba(var(--color-primary), 1);
     }
     
+    /* Container (unselected) */
+    button.icon.filled[aria-pressed=false] {
+        background-color: rgba(var(--color-surface-variant), 1);
+    }
+    
+    /* Container (selected) */
+    button.icon.filled[aria-pressed=true] {
+        background-color: rgba(var(--color-primary), 1);
+    }
+    
+
+    /* Icon (no toggle - default) */
     button.icon.filled::after {
         color: rgba(var(--color-on-primary), 1);
     }
+    /* Icon (toggle-unselected) */
+    button.icon.filled[aria-pressed=false]::after {
+        color: rgba(var(--color-primary), 1);
+    }
+    /* Icon (toggle -selected) */
+    button.icon.filled[aria-pressed=true]::after {
+        color: rgba(var(--color-on-primary), 1);
+    }
+
     
     button.icon.filled:disabled {
         background-color: rgba(var(--color-on-surface), .12);
@@ -168,7 +139,7 @@ export const iconButton = (properties) => {
     button.icon.filled:disabled::after {
         color: rgba(var(--color-on-surface), .38);
     }
-    
+    /*
     button.icon.filled:not(:disabled, :active):hover {
         background-image: linear-gradient(rgba(var(--color-on-primary), .08) 0 100%);
     }
@@ -186,7 +157,7 @@ export const iconButton = (properties) => {
     button.icon.filled:not(:disabled, :active):focus::after  {
         color: rgba(var(--color-on-primary), 1);
     }
-    /*  */
+      */
     
     
     button.icon.filled-tonal {
@@ -576,95 +547,92 @@ export const navigationBar = (properties) => {
 
 export const application = (properties, currentTheme = {}) => {
 
-    globalTheme = Object.assign(globalTheme, currentTheme);
-    globalTheme = Object.freeze(globalTheme);
-
     (new CSSStyleSheet()).replace(`
         @font-face {
             font-family: "Font-Regular";
-            src: url("${globalTheme.fontRegular}");
+            src: url("Roboto-Regular.ttf");
         }
 
         @font-face {
             font-family: "Font-Medium";
-            src: url("${globalTheme.fontMedium}");
+            src: url("Roboto-Medium.ttf");
         }
 
         @font-face {
             font-family: "Font-Icons";
-            src: url("${globalTheme.fontIcons}");
+            src: url("MaterialIcons-Regular.ttf");
         }
 
         @font-face {
             font-family: "Font-Icons-Outlined";
-            src: url("${globalTheme.fontIconsOutlined}");
+            src: url("MaterialIconsOutlined-Regular.otf");
         }
 
         @media (prefers-color-scheme: light) {
             :root {
-                --color-primary: ${globalTheme.colorLightPrimary};
-                --color-primary-container: ${globalTheme.colorLightPrimaryContainer};
-                --color-secondary: ${globalTheme.colorLightSecondary};
-                --color-secondary-container: ${globalTheme.colorLightSecondaryContainer};
-                --color-tertiary: ${globalTheme.colorLightTertiary};
-                --color-tertiary-container: ${globalTheme.colorLightTertiaryContainer};
-                --color-surface: ${globalTheme.colorLightSurface};
-                --colr-background: ${globalTheme.colorLightBackground};
-                --color-error: ${globalTheme.colorLightError};
-                --color-error-container: ${globalTheme.colorLightErrorContainer};
-                --color-on-primary: ${globalTheme.colorLightOnPrimary};
-                --color-on-primary-container: ${globalTheme.colorLightOnPrimaryContainer};
-                --color-on-secondary: ${globalTheme.colorLightOnSecondary};
-                --color-on-secondary-container: ${globalTheme.colorLightOnSecondaryContainer};
-                --color-on-tertiary: ${globalTheme.colorLightOnTertiary};
-                --color-on-tertiary-container: ${globalTheme.colorLightOnTertiaryContainer};
-                --color-on-surface: ${globalTheme.colorLightOnSurface};
-                --color-on-surface-variant: ${globalTheme.colorLightOnSurfaceVariant};
-                --color-on-error: ${globalTheme.colorLightOnError};
-                --color-on-error-container: ${globalTheme.colorLightOnErrorContainer};
-                --color-on-background: ${globalTheme.colorLightOnBackground};
-                --color-outline: ${globalTheme.colorLightOutline};
-                --color-outline-variant: ${globalTheme.colorLightOutlineVariant};
-                --color-shadow: ${globalTheme.colorLightShadow};
-                --color-surface-tint: ${globalTheme.colorLightSurfaceTint};
-                --color-inverse-surface: ${globalTheme.colorLightInverseSurface};
-                --color-inverse-on-surface: ${globalTheme.colorLightInverseOnSurface};
-                --color-inverse-primary: ${globalTheme.colorLightInversePrimary};
-                --color-scrim: ${globalTheme.colorLightScrim};
+                --color-primary: var(--color-light-primary, 103, 80, 164);
+                --color-primary-container: var(--color-light-primary-container, 234, 221, 255);
+                --color-secondary: var(--color-light-secondary, 98, 91, 113);
+                --color-secondary-container: var(--color-light-secondary-container, 232, 222, 248);
+                --color-tertiary: var(--color-light-tertiary, 125, 82, 96);
+                --color-tertiary-container: var(--color-light-tertiary-container, 255, 216, 228);
+                --color-surface: var(--color-light-surface, 255, 251, 254);
+                --color-background: var(--color-light-background, 255, 251, 254);
+                --color-error: var(--color-light-error, 179, 38, 30);
+                --color-error-container: var(--color-light-error-container, 249, 222, 220);
+                --color-on-primary: var(--color-light-on-primary, 255, 255, 255);
+                --color-on-primary-container: var(--color-light-on-primary-container, 33, 0, 94);
+                --color-on-secondary: var(--color-light-on-secondary, 255, 255, 255);
+                --color-on-secondary-container: var(--color-light-on-secondary-container, 30, 25, 43);
+                --color-on-tertiary: var(--color-light-on-tertiary, 255, 255, 255);
+                --color-on-tertiary-container: var(--color-light-on-tertiary-container, 55, 11, 30);
+                --color-on-surface: var(--color-light-on-surface, 28, 27, 31);
+                --color-on-surface-variant: var(--color-light-on-surface-variant, 73, 69, 78);
+                --color-on-error: var(--color-light-on-error, 255, 255, 255);
+                --color-on-error-container: var(--color-light-on-error-container, 65, 14, 11);
+                --color-on-background: var(--color-light-on-background, 28, 27, 31);
+                --color-outline: var(--color-light-outline, 121, 116, 126);
+                --color-outline-variant: var(--color-light-outline-variant, 196, 199, 197);
+                --color-shadow: var(--color-light-shadow, 0, 0, 0);
+                --color-surface-tint: var(--color-light-surface-tint, 103, 80, 164);
+                --color-inverse-surface: var(--color-light-inverse-surface, 49, 48, 51);
+                --color-inverse-on-surface: var(--color-light-inverse-on-surface, 244, 239, 244);
+                --color-inverse-primary: var(--color-light-inverse-primary, 208, 188, 255);
+                --color-scrim: var(--color-light-scrim, 0, 0, 0);
             }
         }
 
         @media (prefers-color-scheme: dark) {
             :root {
-                --color-primary: ${globalTheme.colorDarkPrimary};
-                --color-primary-container: ${globalTheme.colorDarkPrimaryContainer};
-                --color-secondary: ${globalTheme.colorDarkSecondary};
-                --color-secondary-container: ${globalTheme.colorDarkSecondaryContainer};
-                --color-tertiary: ${globalTheme.colorDarkTertiary};
-                --color-tertiary-container: ${globalTheme.colorDarkTertiaryContainer};
-                --color-surface: ${globalTheme.colorDarkSurface};
-                --colr-background: ${globalTheme.colorDarkBackground};
-                --color-error: ${globalTheme.colorDarkError};
-                --color-error-container: ${globalTheme.colorDarkErrorContainer};
-                --color-on-primary: ${globalTheme.colorDarkOnPrimary};
-                --color-on-primary-container: ${globalTheme.colorDarkOnPrimaryContainer};
-                --color-on-secondary: ${globalTheme.colorDarkOnSecondary};
-                --color-on-secondary-container: ${globalTheme.colorDarkOnSecondaryContainer};
-                --color-on-tertiary: ${globalTheme.colorDarkOnTertiary};
-                --color-on-tertiary-container: ${globalTheme.colorDarkOnTertiaryContainer};
-                --color-on-surface: ${globalTheme.colorDarkOnSurface};
-                --color-on-surface-variant: ${globalTheme.colorDarkOnSurfaceVariant};
-                --color-on-error: ${globalTheme.colorDarkOnError};
-                --color-on-error-container: ${globalTheme.colorDarkOnErrorContainer};
-                --color-on-background: ${globalTheme.colorDarkOnBackground};
-                --color-outline: ${globalTheme.colorDarkOutline};
-                --color-outline-variant: ${globalTheme.colorDarkOutlineVariant};
-                --color-shadow: ${globalTheme.colorDarkShadow};
-                --color-surface-tint: ${globalTheme.colorDarkSurfaceTint};
-                --color-inverse-surface: ${globalTheme.colorDarkInverseSurface};
-                --color-inverse-on-surface: ${globalTheme.colorDarkInverseOnSurface};
-                --color-inverse-primary: ${globalTheme.colorDarkInversePrimary};
-                --color-scrim: ${globalTheme.colorDarkScrim};
+                --color-primary: var(--color-dark-primary, 208, 188, 255);
+                --color-primary-container: var(--color-dark-primary-container, 79, 55, 139);
+                --color-secondary: var(--color-dark-secondary, 204, 194, 220);
+                --color-secondary-container: var(--color-dark-secondary-container, 74, 68, 88);
+                --color-tertiary: var(--color-dark-tertiary, 239, 184, 200);
+                --color-tertiary-container: var(--color-dark-tertiary-container, 99, 59, 72);
+                --color-surface: var(--color-dark-surface, 28, 27, 31);
+                --color-background: var(--color-dark-background, 28, 27, 31);
+                --color-error: var(--color-dark-error, 242, 184, 181);
+                --color-error-container: var(--color-dark-error-container, 140, 29, 24);
+                --color-on-primary: var(--color-dark-on-primary, 55, 30, 115);
+                --color-on-primary-container: var(--color-dark-on-primary-container, 234, 221, 255);
+                --color-on-secondary: var(--color-dark-secondary, 51, 45, 65);
+                --color-on-secondary-container: var(--color-dark-on-secondary-container, 232, 222, 248);
+                --color-on-tertiary: var(--color-dark-on-tertiary, 73, 37, 50);
+                --color-on-tertiary-container: var(--color-dark-on-tertiary-container, 255, 216, 228);
+                --color-on-surface: var(--color-dark-on-surface, 28,27,31);
+                --color-on-surface-variant: var(--color-dark-on-surface-variant, 202, 196, 208);
+                --color-on-error: var(--color-dark-on-error, 96, 20, 16);
+                --color-on-error-container: var(--color-dark-on-error-container, 249, 222, 220);
+                --color-on-background: var(--color-dark-on-background, 230, 225, 229);
+                --color-outline: var(--color-dark-outline, 147, 143, 153);
+                --color-outline-variant: var(--color-dark-outline-variant, 68, 71, 70);
+                --color-shadow: var(--color-dark-shadow, 0, 0, 0);
+                --color-surface-tint: var(--color-dark-surface-tint, 208, 188, 255);
+                --color-inverse-surface: var(--color-dark-inverse-surface, 230, 225, 229);
+                --color-inverse-on-surface: var(--color-dark-inverse-on-surface, 49, 48, 51);
+                --color-inverse-primary: var(--color-dark-inverse-primary, 103, 80, 164);
+                --color-scrim: var(--color-dark-scrim, 0, 0, 0);
             }
         }
         *,
@@ -716,7 +684,13 @@ export const application = (properties, currentTheme = {}) => {
                 flex-direction: row-reverse;
             }
         }
-    `).then((sheet) => { document.adoptedStyleSheets[document.adoptedStyleSheets.length] = sheet });
+    `).then((sheet) => {
+        document.adoptedStyleSheets[document.adoptedStyleSheets.length] = sheet;
+
+        for (const [key, value] of Object.entries(currentTheme)) {
+            document.documentElement.style.setProperty(key, value);
+        }
+    });
 
     const elem = Object.create(null);
 

@@ -14,23 +14,61 @@
             application,
             navigationBar,
             navigationItem,
-            iconButton
+            iconButton,
+            Row
         } from "./wapp.mjs";
 
         application({
             content: [
-                iconButton({
-                    type: 'filled',
-                    title: 'test'
+                Row({
+                    content: [
+                        iconButton({
+                            type: 'filled',
+                            title: 'test'
+                        }),
+                        iconButton({
+                            disabled: true,
+                            type: 'filled',
+                            title: 'test'
+                        }),
+                    ]
                 }),
-                iconButton({
-                    type: 'outlined',
-                    title: 'test'
+                Row({
+                    content: [
+                        iconButton({
+                            checked: false,
+                            type: 'filled',
+                            title: 'test'
+                        }),
+                    ]
                 }),
-                iconButton({
-                    checked: true,
-                    title: 'test'
-                })
+                Row({
+                    content: [
+                        iconButton({
+                        }),
+                        iconButton({
+                            disabled: true
+                        }),
+                    ]
+                }),
+                Row({
+                    content: [
+                        iconButton({
+                            checked: false,
+                        })
+                    ]
+                }),
+                Row({
+                    content: [
+                        iconButton({
+                            type: 'outlined',
+                            title: 'test'
+                        }),]
+                }),
+                Row({
+                    content: []
+                }),
+
             ],
             navigationBar: navigationBar({
                 oninput(e) {
@@ -60,8 +98,6 @@
                 alert(8)
             }
         }, {
-            colorLightSecondaryContainer: ' 0,255, 0',
-            colorDarkSecondaryContainer: ' 0, 0,255'
         })
     </script>
     <script type="bla">

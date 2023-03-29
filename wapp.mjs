@@ -8,6 +8,27 @@ navigationItem.seen = true;
 `).then((sheet) => { document.adoptedStyleSheets[document.adoptedStyleSheets.length] = sheet });
  */
 
+
+export const Text = (properties) => {
+    const elem = Object.create(null, {
+        node: {
+            value: (function () {
+                return document.createElement('p');
+            })()
+        },
+        text: {
+            set(str) {
+                this.node.textContent = str;
+            }
+        }
+    });
+
+    Object.assign(elem, properties);
+    Object.freeze(elem);
+
+    return elem;
+}
+
 export const Row = (properties) => {
     const elem = Object.create(null, {
         node: {
@@ -32,7 +53,7 @@ export const Row = (properties) => {
     return elem;
 }
 
-export const iconButton = (properties) => {
+export const IconButton = (properties) => {
     const elem = Object.create(null, {
         onclick: { value: (e) => { console.log(e) }, writable: true },
         node: {
@@ -52,8 +73,24 @@ export const iconButton = (properties) => {
             })()
         },
         disabled: { set(bool) { this.node.disabled = bool; } },
-        checked: { set(bool) { this.node.ariaPressed = String(bool); } },
-        type: { set(str) { this.node.className = `icon ${str}`; } },
+        checked: {
+            set(bool) { this.node.ariaPressed = String(bool); },
+            get() { return this.node.ariaPressed == String(true); }
+        },
+        type: {
+            set(str) {
+                this.node.className = `icon ${str}`;
+
+                /* OUTLINED only toggle-buttons */
+                if(str=='outlined') {
+                    this.node.ariaPressed = {
+                        true: 'true',
+                        false: 'false',
+                        null: 'false'
+                    }[this.node.ariaPressed];
+                }
+            }
+        },
         title: { set(str) { this.node.title = str; } },
         id: { set(str) { this.node.id = str; } },
     });
@@ -61,9 +98,9 @@ export const iconButton = (properties) => {
     Object.assign(elem, properties);
     Object.freeze(elem);
 
-    if (iconButton.seen)
+    if (IconButton.seen)
         return elem;
-    iconButton.seen = true;
+    IconButton.seen = true;
 
     (new CSSStyleSheet()).replace(`
     button.icon {
@@ -72,10 +109,11 @@ export const iconButton = (properties) => {
         border-radius: 20rem;
         margin: 4rem;
         font-size: 0;
+
+        border-color: rgba(var(--color-outline), 100%) !important;
     }
     
     button.icon::after {
-        color: rgba(var(--color-on-surface-variant), 1);
         font-family: Font-Icons-Outlined;
         content: attr(data-icon);
         line-height: 1.6;
@@ -83,152 +121,98 @@ export const iconButton = (properties) => {
         font-size: 24rem;
     }
 
+    button.icon:disabled {
+        color: rgba(var(--color-on-surface), 38%) !important;
+        border-color: rgba(var(--color-on-surface), 12%) !important;
+    }
+
+    button.icon.filled-tonal:disabled,
+    button.icon.filled:disabled {
+        background-image: linear-gradient(
+            rgba(
+                var(--color-on-surface), 12%
+            ) 0 100%)!important;
+    }
+
+    button.icon.outlined:not([aria-pressed=true]) {
+        border-width: 1rem;
+        border-style: solid;
+    }
+
+    button.icon:not([aria-pressed=false], :disabled) {
+        color: rgba(var(--icon-color-default), 1) !important;
+        background-color: rgb(
+            var(--container-color-default)
+        ) !important;
+    }
+    
+    button.icon[aria-pressed=false]:not(:disabled) {
+        color: rgba(var(--icon-color-unselected), 1) !important;
+        background-color: rgb(
+            var(--container-color-unselected)
+        ) !important; 
+    }
+
     button.icon[aria-pressed=true]::after {
-        color: rgba(var(--color-primary), 1);
         font-family: Font-Icons;
     }
     
-    button.icon:disabled::after {
-        color: rgba(var(--color-on-surface), .38);
-    }
-    
     button.icon:not(:disabled, :active):hover {
-        background-image: linear-gradient(rgba(var(--color-on-surface-variant), .08) 0 100%);
+        background-image: linear-gradient(
+            rgb(
+                var(--icon-color-default), 8%
+            ) 0 100%)
     }
     
-    button.icon:not(:disabled):active,
-    button.icon:focus {
-        background-image: linear-gradient(rgba(var(--color-on-surface-variant), .12) 0 100%);
+    button.icon[aria-pressed=false]:not(:disabled, :active):hover {
+        background-image: linear-gradient(
+            rgb(
+                var(--icon-color-unselected), 8%
+            ) 0 100%)
     }
-    
-    /* FILLED */
-    /* Container (no toggle - default) */
+   
+    button.icon:not(:disabled):active, 
+    button.icon:not(:disabled):focus {
+        background-image: linear-gradient(
+            rgb(
+                var(--icon-color-default), 12%
+            ) 0 100%)
+    }
+   
+    button.icon[aria-pressed=false]:not(:disabled):active, 
+    button.icon[aria-pressed=false]:not(:disabled):focus {
+        background-image: linear-gradient(
+            rgb(
+                var(--icon-color-unselected), 12%
+            ) 0 100%)
+    }
+
+    button.icon {
+        --state-layer-opacity: 0; 
+        --icon-color-default: var(--color-primary);
+        --icon-color-unselected: var(--color-on-surface-variant);
+    }
+
     button.icon.filled {
-        background-color: rgba(var(--color-primary), 1);
-    }
-    
-    /* Container (unselected) */
-    button.icon.filled[aria-pressed=false] {
-        background-color: rgba(var(--color-surface-variant), 1);
-    }
-    
-    /* Container (selected) */
-    button.icon.filled[aria-pressed=true] {
-        background-color: rgba(var(--color-primary), 1);
-    }
-    
-
-    /* Icon (no toggle - default) */
-    button.icon.filled::after {
-        color: rgba(var(--color-on-primary), 1);
-    }
-    /* Icon (toggle-unselected) */
-    button.icon.filled[aria-pressed=false]::after {
-        color: rgba(var(--color-primary), 1);
-    }
-    /* Icon (toggle -selected) */
-    button.icon.filled[aria-pressed=true]::after {
-        color: rgba(var(--color-on-primary), 1);
+        --icon-color-default: var(--color-on-primary);
+        --icon-color-unselected: var(--color-primary);
+        --container-color-default: var(--color-primary);
+        --container-color-unselected: var(--color-surface-container-highest);
     }
 
-    
-    button.icon.filled:disabled {
-        background-color: rgba(var(--color-on-surface), .12);
-    }
-    
-    button.icon.filled:disabled::after {
-        color: rgba(var(--color-on-surface), .38);
-    }
-    /*
-    button.icon.filled:not(:disabled, :active):hover {
-        background-image: linear-gradient(rgba(var(--color-on-primary), .08) 0 100%);
-    }
-    
-    button.icon.filled:not(:disabled, :active):hover::after  {
-        color: rgba(var(--color-on-primary), 1);
-    }
-    
-    button.icon.filled:not(:disabled, :active):active, 
-    button.icon.filled:not(:disabled, :active):focus {
-        background-image: linear-gradient(rgba(var(--color-on-primary), .12) 0 100%);
-    }
-    
-    button.icon.filled:not(:disabled, :active):active::after, 
-    button.icon.filled:not(:disabled, :active):focus::after  {
-        color: rgba(var(--color-on-primary), 1);
-    }
-      */
-    
-    
     button.icon.filled-tonal {
-        background-color: rgba(var(--color-secondary-container), 1);
+        --icon-color-default: var(--color-on-secondary-container);
+        --icon-color-unselected: var(--color-on-surface-variant);
+        --container-color-default: var(--color-secondary-container);
+        --container-color-unselected: var(--color-surface-container-highest);
     }
-    
-    button.icon.filled-tonal::after {
-        color: rgba(var(--color-on-secondary-container), 1);
-    }
-    
-    button.icon.filled-tonal:disabled {
-        background-color: rgba(var(--color-on-surface), .12);
-    }
-    
-    button.icon.filled-tonal:disabled::after {
-        color: rgba(var(--color-on-surface), .38);
-    }
-    
-    button.icon.filled-tonal:not(:disabled, :active):hover {
-        background-image: linear-gradient(rgba(var(--color-on-secondary-container), .08) 0 100%);
-    }
-    
-    button.icon.filled-tonal:not(:disabled, :active):hover::after  {
-        color: rgba(var(--color-on-secondary-container), 1);
-    }
-    
-    button.icon.filled-tonal:not(:disabled, :active):active, 
-    button.icon.filled-tonal:not(:disabled, :active):focus {
-        background-image: linear-gradient(rgba(var(--color-on-secondary-container), .12) 0 100%);
-    }
-    
-    button.icon.filled-tonal:not(:disabled, :active):active::after, 
-    button.icon.filled-tonal:not(:disabled, :active):focus::after  {
-        color: rgba(var(--color-on-secondary-container), 1);
-    }
-    /*  */
-    
-    
+
     button.icon.outlined {
-        border: 1rem solid rgba(var(--color-outline), 1);
+        --icon-color-default: var(--color-inverse-on-surface);
+        --icon-color-unselected: var(--color-on-surface-variant);
+        --container-color-default: var(--color-inverse-surface);
     }
-    
-    button.icon.outlined::after {
-        color: rgba(var(--color-on-surface-variant), 1);
-    }
-    
-    button.icon.outlined:disabled {
-        background-color: rgba(var(--color-on-surface), .12);
-    }
-    
-    button.icon.outlined:disabled::after {
-        color: rgba(var(--color-on-surface), .38);
-    }
-    
-    button.icon.outlined:not(:disabled, :active):hover {
-        background-image: linear-gradient(rgba(var(--color-on-surface-variant), .08) 0 100%);
-    }
-    
-    button.icon.outlined:not(:disabled, :active):hover::after  {
-        color: rgba(var(--color-on-surface-variant), 1);
-    }
-    
-    button.icon.outlined:not(:disabled, :active):active, 
-    button.icon.outlined:not(:disabled, :active):focus {
-        background-image: linear-gradient(rgba(var(--color-on-surface-variant), .12) 0 100%);
-    }
-    
-    button.icon.outlined:not(:disabled, :active):active::after, 
-    button.icon.outlined:not(:disabled, :active):focus::after  {
-        color: rgba(var(--color-on-surface-variant), 1);
-    }
+
     `).then((sheet) => { document.adoptedStyleSheets[document.adoptedStyleSheets.length] = sheet });
 
     return elem;
@@ -577,6 +561,8 @@ export const application = (properties, currentTheme = {}) => {
                 --color-tertiary: var(--color-light-tertiary, 125, 82, 96);
                 --color-tertiary-container: var(--color-light-tertiary-container, 255, 216, 228);
                 --color-surface: var(--color-light-surface, 255, 251, 254);
+                --color-surface-variant: var(--color-light-surface-variant, 231,224,236);
+                --color-surface-container-highest: var(--color-light-surface-container-highest, 231, 224, 236);
                 --color-background: var(--color-light-background, 255, 251, 254);
                 --color-error: var(--color-light-error, 179, 38, 30);
                 --color-error-container: var(--color-light-error-container, 249, 222, 220);
@@ -611,6 +597,8 @@ export const application = (properties, currentTheme = {}) => {
                 --color-tertiary: var(--color-dark-tertiary, 239, 184, 200);
                 --color-tertiary-container: var(--color-dark-tertiary-container, 99, 59, 72);
                 --color-surface: var(--color-dark-surface, 28, 27, 31);
+                --color-surface-variant: var(--color-dark-surface-variant, 73,69,79);
+                --color-surface-container-highest: var(--color-dark-surface-container-highest, 73,69,79);
                 --color-background: var(--color-dark-background, 28, 27, 31);
                 --color-error: var(--color-dark-error, 242, 184, 181);
                 --color-error-container: var(--color-dark-error-container, 140, 29, 24);
@@ -620,7 +608,7 @@ export const application = (properties, currentTheme = {}) => {
                 --color-on-secondary-container: var(--color-dark-on-secondary-container, 232, 222, 248);
                 --color-on-tertiary: var(--color-dark-on-tertiary, 73, 37, 50);
                 --color-on-tertiary-container: var(--color-dark-on-tertiary-container, 255, 216, 228);
-                --color-on-surface: var(--color-dark-on-surface, 28,27,31);
+                --color-on-surface: var(--color-dark-on-surface, 230,225,229);
                 --color-on-surface-variant: var(--color-dark-on-surface-variant, 202, 196, 208);
                 --color-on-error: var(--color-dark-on-error, 96, 20, 16);
                 --color-on-error-container: var(--color-dark-on-error-container, 249, 222, 220);

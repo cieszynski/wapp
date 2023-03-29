@@ -14,19 +14,42 @@
             application,
             navigationBar,
             navigationItem,
-            iconButton,
-            Row
+            IconButton,
+            Row,
+            Text
         } from "./wapp.mjs";
 
         application({
             content: [
+                Text({text: "Standard"}),
+                Row({/* STANDARD */
+                    content: [
+                        IconButton({
+                        }),
+                        IconButton({
+                            disabled: true
+                        }),
+                    ]
+                }),
                 Row({
                     content: [
-                        iconButton({
+                        IconButton({
+                            checked: true,
+                        }),
+                        IconButton({
+                            checked: true,
+                            disabled: true
+                        })
+                    ]
+                }),
+                Text({text: "FILLED"}),
+                Row({/* FILLED */
+                    content: [
+                        IconButton({
                             type: 'filled',
                             title: 'test'
                         }),
-                        iconButton({
+                        IconButton({
                             disabled: true,
                             type: 'filled',
                             title: 'test'
@@ -35,38 +58,58 @@
                 }),
                 Row({
                     content: [
-                        iconButton({
+                        IconButton({
                             checked: false,
                             type: 'filled',
                             title: 'test'
                         }),
                     ]
                 }),
-                Row({
+                Text({text: "OUTLINED"}),
+                Row({/* OUTLINED */
                     content: [
-                        iconButton({
-                        }),
-                        iconButton({
-                            disabled: true
-                        }),
-                    ]
-                }),
-                Row({
-                    content: [
-                        iconButton({
-                            checked: false,
-                        })
-                    ]
-                }),
-                Row({
-                    content: [
-                        iconButton({
+                        IconButton({
                             type: 'outlined',
                             title: 'test'
-                        }),]
+                        }),
+                        IconButton({
+                            disabled: true,
+                            type: 'outlined',
+                            title: 'test'
+                        }),
+                    ]
                 }),
                 Row({
-                    content: []
+                    content: [
+                        IconButton({
+                            checked: false,
+                            type: 'outlined',
+                            title: 'test'
+                        }),
+                    ]
+                }),
+                Text({text: "filled-tonal"}),
+                Row({
+                    content: [
+                        IconButton({
+                            type: 'filled-tonal',
+                            title: 'test'
+                        }),
+                        IconButton({
+                            disabled: true,
+                            type: 'filled-tonal',
+                            title: 'test'
+                        }),
+                    ]
+                }),
+                Row({
+                    content: [
+                        IconButton({
+                            checked: false,
+                            type: 'filled-tonal',
+                            title: 'test'
+                        }),
+                    ]
                 }),
 
             ],

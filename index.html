@@ -15,13 +15,14 @@
             navigationBar,
             navigationItem,
             IconButton,
+            CommonButton,
             Row,
             Text
         } from "./wapp.mjs";
 
         application({
             content: [
-                Text({text: "Standard"}),
+                Text({ text: "Standard" }),
                 Row({/* STANDARD */
                     content: [
                         IconButton({
@@ -42,7 +43,7 @@
                         })
                     ]
                 }),
-                Text({text: "FILLED"}),
+                Text({ text: "FILLED" }),
                 Row({/* FILLED */
                     content: [
                         IconButton({
@@ -65,10 +66,10 @@
                         }),
                     ]
                 }),
-                Text({text: "OUTLINED"}),
+                Text({ text: "OUTLINED" }),
                 Row({/* OUTLINED */
                     content: [
-                        IconButton({
+                        IconButton({/* autom. checked=false */
                             type: 'outlined',
                             title: 'test'
                         }),
@@ -88,7 +89,7 @@
                         }),
                     ]
                 }),
-                Text({text: "filled-tonal"}),
+                Text({ text: "filled-tonal" }),
                 Row({
                     content: [
                         IconButton({
@@ -111,6 +112,75 @@
                         }),
                     ]
                 }),
+                Text({ text: "Common Text" }),
+                Row({
+                    content: [
+                        CommonButton({
+                            label: "Senden"
+                        }),
+                        CommonButton({
+                            label: "Disabled",
+                            disabled: true
+                        })
+                    ]
+                }),
+                Text({ text: "Common Elevated" }),
+                Row({
+                    content: [
+                        CommonButton({
+                            type: "elevated",
+                            label: "Senden"
+                        }),
+                        CommonButton({
+                            type: "elevated",
+                            label: "Disabled",
+                            disabled: true
+                        })
+                    ]
+                }),
+                Text({ text: "Common Filled" }),
+                Row({
+                    content: [
+                        CommonButton({
+                            type: "filled",
+                            label: "Senden"
+                        }),
+                        CommonButton({
+                            type: "filled",
+                            label: "Disabled",
+                            disabled: true
+                        })
+                    ]
+                }),
+                Text({ text: "Common Filled Tonal" }),
+                Row({
+                    content: [
+                        CommonButton({
+                            type: "filled-tonal",
+                            label: "Senden"
+                        }),
+                        CommonButton({
+                            type: "filled-tonal",
+                            label: "Disabled",
+                            disabled: true
+                        })
+                    ]
+                }),
+                Text({ text: "Common Outlined" }),
+                Row({
+                    content: [
+                        CommonButton({
+                            type: "outlined",
+                            label: "Senden"
+                        }),
+                        CommonButton({
+                            type: "outlined",
+                            label: "Disabled",
+                            disabled: true
+                        })
+                    ]
+                }),
+
 
             ],
             navigationBar: navigationBar({

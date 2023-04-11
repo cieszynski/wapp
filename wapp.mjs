@@ -53,6 +53,143 @@ export const Row = (properties) => {
     return elem;
 }
 
+export const CommonButton = (properties) => {
+    const elem = Object.create(null, {
+        onclick: { value: (e) => { console.log(e) }, writable: true },
+        node: {
+            value: (function () {
+                const button = document.createElement('button');
+                button.addEventListener('click', (e) => {
+                    elem.onclick(e);
+                })
+                button.className = "common text";
+                button.textContent = "unknown";
+                button.dataset.icon = '\ue88a';
+                return button;
+            })()
+        },
+        disabled: { set(bool) { this.node.disabled = bool; } },
+        checked: {
+            set(bool) { this.node.ariaPressed = String(bool); },
+            get() { return this.node.ariaPressed == String(true); }
+        },
+        type: {
+            set(str) {
+                this.node.className = `common ${str}`;
+
+            }
+        },
+        label: { set(str) { this.node.textContent = str; } },
+        title: { set(str) { this.node.title = str; } },
+        id: { set(str) { this.node.id = str; } },
+    });
+
+    Object.assign(elem, properties);
+    Object.freeze(elem);
+
+    if (CommonButton.seen)
+        return elem;
+    CommonButton.seen = true;
+
+    (new CSSStyleSheet()).replace(`
+    button.common.elevated,
+    button.common.filled,
+    button.common.filled-tonal,
+    button.common.outlined,
+    button.common.text {
+        font: 500 14rem/1 Font-Medium;
+        padding: 10rem 24rem 10rem 0rem;
+        margin: 4rem;
+        border-radius: 20rem;
+        height: 40rem;
+        border-color: rgba(var(--color-outline), 100%) !important;
+    }
+
+    button.common.elevated::before,
+    button.common.filled::before,
+    button.common.filled-tonal::before,
+    button.common.outlined::before,
+    button.common.text::before {
+        font: 500 18rem/1 Font-Icons-Outlined;
+        padding: 11rem 8rem 11rem 16rem;
+        vertical-align: text-bottom;
+        content: attr(data-icon);
+    }
+
+    button.common.outlined {
+        border-width: 1rem;
+        border-style: solid;
+    }
+
+    button.common.elevated {
+        box-shadow: 0 1rem 4rem -1rem rgba(var(--color-shadow), 100%);
+    }
+
+    button.common:disabled {
+        color: rgba(var(--color-on-surface), 38%) !important;
+        background-color: rgba(var(--color-on-surface), 12%) !important;
+        box-shadow: none;
+    }
+
+    button.common.outlined:disabled,
+    button.common.text:disabled {
+        background-color: rgba(0,0,0,0) !important;
+        border-color: rgba(var(--color-outline), 12%) !important;
+    }
+
+    button.common.filled-tonal:not(:disabled),
+    button.common.filled:not(:disabled),
+    button.common.elevated:not(:disabled) {
+        color: rgba(var(--common-label-color), 1) !important;
+        background-color: rgb(
+            var(--common-container-color)
+        ) !important; 
+    }
+
+    button.common:not(:disabled, :active):hover {
+        background-image: linear-gradient(
+            rgb(
+                var(--common-label-color), 8%
+            ) 0 100%)
+    }
+
+    button.common:not(:disabled):active, 
+    button.common:not(:disabled):focus {
+        background-image: linear-gradient(
+            rgb(
+                var(--common-label-color), 12%
+            ) 0 100%)
+    }
+    /*  */
+    button.common.text {
+        --common-label-color: var(--color-primary);
+    }
+
+    button.common.elevated {
+        --common-label-color: var(--color-primary);
+        --common-container-color:  var(--color-surface-container-low);
+    }
+
+    button.common.filled {
+        --common-label-color: var(--color-on-primary);
+        --common-container-color:  var(--color-primary);
+    }
+
+    button.common.filled-tonal {
+        --common-label-color: var(--color-on-secondary-container);
+        --common-container-color:  var(--color-secondary-container);
+    }
+
+    button.common.outlined {
+        --common-label-color: var(--color-on-secondary-container);
+        --common-container-color:  var(--color-secondary-container);
+    }
+
+    `).then((sheet) => { document.adoptedStyleSheets[document.adoptedStyleSheets.length] = sheet });
+
+    return elem;
+}
+
 export const IconButton = (properties) => {
     const elem = Object.create(null, {
         onclick: { value: (e) => { console.log(e) }, writable: true },
@@ -82,7 +219,7 @@ export const IconButton = (properties) => {
                 this.node.className = `icon ${str}`;
 
                 /* OUTLINED only toggle-buttons */
-                if(str=='outlined') {
+                if (str == 'outlined') {
                     this.node.ariaPressed = {
                         true: 'true',
                         false: 'false',
@@ -562,7 +699,11 @@ export const application = (properties, currentTheme = {}) => {
                 --color-tertiary-container: var(--color-light-tertiary-container, 255, 216, 228);
                 --color-surface: var(--color-light-surface, 255, 251, 254);
                 --color-surface-variant: var(--color-light-surface-variant, 231,224,236);
-                --color-surface-container-highest: var(--color-light-surface-container-highest, 231, 224, 236);
+                --color-surface-container-lowest: var(--color-light-surface-container-lowest, 255, 255, 255);
+                --color-surface-container-low: var(--color-light-surface-container-low, 247, 242, 247);
+                --color-surface-container: var(--color-light-surface-container, 241, 236, 241);
+                --color-surface-container-high: var(--color-light-surface-container-high, 236, 231, 235);
+                --color-surface-container-highest: var(--color-light-surface-container-highest, 230, 225, 229);
                 --color-background: var(--color-light-background, 255, 251, 254);
                 --color-error: var(--color-light-error, 179, 38, 30);
                 --color-error-container: var(--color-light-error-container, 249, 222, 220);
